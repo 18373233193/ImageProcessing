@@ -5,9 +5,6 @@ result = zeros(N1,N2);
 
 Vsym = padarray(image, [Ds+ds,Ds+ds], 'symmetric');
 
-kernel=ones(2*ds+1,2*ds+1);  
-kernel=kernel./((2*ds+1)*(2*ds+1));
-
 for x1 = 1:N1  
     for x2 = 1:N2 
         

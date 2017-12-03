@@ -1,4 +1,4 @@
-function [offsetsRows, offsetsCols, distances] = templateMatchingIntegralImage(Vsym, row,...
+function [offsetsRows, offsetsCols, distances] = templateMatchingIntegralImage(Vsym, ii,row,...
     col,patchSize, searchWindowSize)
 % This function should for each possible offset in the search window
 % centred at the current row and col, save a value for the offsets and
@@ -23,36 +23,34 @@ offsetsRows = zeros(2*Ds+1);
 offsetsCols = zeros(2*Ds+1);
 distances = zeros(2*Ds+1);
 
-ii = cell(2*Ds+1);
+x1 = row;
+x2 = col;
 
-for t1=-Ds:Ds  
-    for t2=-Ds:Ds
-        x = t1+Ds+1;
-        y = t2+Ds+1;
-        ii{x,y} = computeIntegralImage(Vsym,Ds,t1,t2);
-    end
-end
+i1 = x1+Ds+ds+1;
+j1 = x2+Ds+ds+1;
 
-i1=row+ds+1; %??? Why plus 1 ??
-j1=row+ds+1; %??? 
-        
 count = 1;
 
-i = row + Ds + ds;
-j = col + Ds + ds;
-
-for y1 = i - Ds : i + Ds
-    for y2 = j - Ds : j + Ds
-        
-        q = y1 - (i - Ds) + 1;
-        p = y2 - (j - Ds) + 1; 
-                    
-        distances(count) = evaluateIntegralImage(ii{q,p}, i1, j1, patchSize);
+for y1 = i1 - Ds : i1 + Ds
+    for y2 = j1 - Ds : j1 + Ds
+                
+        if(y1 == i1 && y2 == j1)
+            distances(count) = 0;
+        else
+            p = y1 - (i1 - Ds) + 1;
+            q = y2 - (j1 - Ds) + 1; 
+                
+            f1=x1+ds+1; %??? Why plus 1 ??
+            g1=x2+ds+1; %??? 
+            
+            distances(count) = evaluateIntegralImage(ii{p,q}, f1, g1, ds);
+        end
         
         offsetsRows(count) = y1;
         offsetsCols(count) = y2;
                 
         count = count+1;
+
     end
 end
 

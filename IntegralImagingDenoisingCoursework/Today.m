@@ -3,14 +3,12 @@ function [result] = Today(image, sigma, ds, Ds, h)
 [N1,N2] = size(image);  
 result = zeros(N1,N2);
 
-%Vsym = padarray(image, [Ds+ds,Ds+ds], 'symmetric');
-Vsym = padarray(image, [Ds+ds+1,Ds+ds+1], 'symmetric');
+Vsym = padarray(image, [Ds+ds,Ds+ds], 'symmetric');
 
 for x1 = 1:N1  
     for x2 = 1:N2 
         
-        %[offsetsRows, offsetsCols, distances] = templateMatchingNaive(Vsym, x1, x2, ds, Ds);
-        [offsetsRows, offsetsCols, distances] = templateMatchingIntegralImage(Vsym, x1, x2, ds, Ds);
+        [offsetsRows, offsetsCols, distances] = templateMatchingNaive(Vsym, x1, x2, ds, Ds);
         
         w = computeWeighting(distances, h, sigma, ds);
         

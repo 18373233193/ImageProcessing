@@ -6,31 +6,45 @@ row = 10;
 col = 10;
 
 % Patchsize - make sure your code works for different values
-patchSize = 0;
+patchSize = 2;
 
 % Search window size - make sure your code works for different values
-searchWindowSize = 0;
+searchWindowSize = 5;
 
 
 %% Implementation of work required in your basic section-------------------
 
 % TODO - Load Image
-image = zeros(100, 100);
+img = imread('images/alleyNoisy_sigma20.png');
+img = rgb2gray(img);
+I=double(img);  
+
+I1 = padarray(I,[searchWindowSize+patchSize,searchWindowSize+patchSize],'symmetric');
+I2 = padarray(I,[searchWindowSize+patchSize+1,searchWindowSize+patchSize+1],'symmetric');
 
 % TODO - Fill out this function
-image_ii = computeIntegralImage(image);
+%image_ii = computeIntegralImage(image);
 
 % TODO - Display the normalised Integral Image
 % NOTE: This is for display only, not for template matching yet!
-figure('name', 'Normalised Integral Image');
+%figure('name', 'Normalised Integral Image');
 
+ii = cell(2*searchWindowSize+1);
+
+for t1=-searchWindowSize:searchWindowSize  
+    for t2=-searchWindowSize:searchWindowSize
+        x = t1+searchWindowSize+1;
+        y = t2+searchWindowSize+1;
+        ii{x,y} = computeIntegralImage(I2,searchWindowSize,t1,t2);
+    end
+end
 
 % TODO - Template matching for naive SSD (i.e. just loop and sum)
-[offsetsRows_naive, offsetsCols_naive, distances_naive] = templateMatchingNaive(row, col,...
+[offsetsRows_naive, offsetsCols_naive, distances_naive] = templateMatchingNaive(I1, row, col,...
     patchSize, searchWindowSize);
 
 % TODO - Template matching using integral images
-[offsetsRows_ii, offsetsCols_ii, distances_ii] = templateMatchingIntegralImage(row, col,...
+[offsetsRows_ii, offsetsCols_ii, distances_ii] = templateMatchingIntegralImage(I2, ii, row, col,...
     patchSize, searchWindowSize);
 
 %% Let's print out your results--------------------------------------------

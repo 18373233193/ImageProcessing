@@ -1,4 +1,4 @@
-function [result] = Morning(I,sigma,ds,Ds,h)  
+function [result] = Morning(I,sigma,h,ds,Ds)  
 
 [m,n]=size(I);  
 Vsym = padarray(I,[Ds+ds+1,Ds+ds+1],'symmetric');  % why plus 1 ??
@@ -32,23 +32,22 @@ for i=1:m
                     continue;  
                 end
 
-                q = y1 - (i1 - Ds) + 1;
-                p = y2 - (j1 - Ds) + 1; 
+                p = y1 - (i1 - Ds) + 1;
+                q = y2 - (j1 - Ds) + 1; 
 
                 
                 f1=i+ds+1; %??? Why plus 1 ??
                 g1=j+ds+1; %??? 
                 
-                                %dist = evaluateIntegralImage(ii{q,p}, i1, j1, ds);
-                %disp("------>>");
-                %disp(f1);
-                %disp(g1);
+                dist = evaluateIntegralImage(ii{p,q}, f1, g1, ds);
                 
+                %{
                 A = ii{q,p}(f1+ds,g1+ds);
                 B = ii{q,p}(f1-ds-1,g1-ds-1);
                 C = ii{q,p}(f1+ds,g1-ds-1);
                 D = ii{q,p}(f1-ds-1,g1+ds);
                 dist = A+B-C-D;
+                %}
 
                 w = computeWeighting(dist, h, sigma, ds);
 

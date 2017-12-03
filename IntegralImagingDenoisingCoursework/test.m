@@ -3,28 +3,22 @@ clear all;
 clc 
 
 img = imread('images/alleyNoisy_sigma22.png');
-img = rgb2gray(img);
-I=double(img);  
+%img = rgb2gray(img);
+%I=double(img);  
 
 tic
-%Out1=Today(I,3,2,5,10);
+Out1=nonLocalMeans(img,3,10,2,5);
 toc
 
 tic
-Out2=Night(I,3,2,5,10);
+%Out2=Dawn(I,3,10,2,5);
 toc
 
 tic
-Out3=Morning(I,3,2,5,10);
+%Out3=Morning(I,3,10,2,5);
 toc
 
-%{
-tic
-Out=fastNLmeans(I,2,5,10);
-toc
-%}
 
-
-imshow([Out2,Out3],[]);
+imshow([Out1],[]);
 
 
