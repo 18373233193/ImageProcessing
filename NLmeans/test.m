@@ -12,15 +12,24 @@ r = evaluateIntegralImage(ii,1,1,2);
 %}  
 %%
 
-img = imread('images/alleyNoisy_sigma21.png');
+img = imread('images/alleyNoisy_sigma20.png');
 img = rgb2gray(img);
 I=double(img);  
 
 tic
-Out=nonLocalMeans(I,1,5,2,10);
+%myOut=FNLM(I,2,5,20);
+myOut=fastNLmeans(I,2,5,20);
+%Out=fastNonLocalMeans(I,3,10,2,5);
 toc
 
-imshow([I,Out],[]);
+
+%{
+tic
+Out=fastNLmeans(I,2,5,10);
+toc
+%}
+
+imshow([I,myOut],[]);
 
 
 %%

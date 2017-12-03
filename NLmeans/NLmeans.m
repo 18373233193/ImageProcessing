@@ -46,7 +46,7 @@ for i=1:m
                 
                 Dist2=sum(sum(kernel.*(W1-W2).*(W1-W2)));%SSD 
                 
-                w=exp(-Dist2/h2);%weight  
+                w=exp(-max(Dist2-2*3^2)/h2);%weight  
                 
                 if(w>wmax)  
                     wmax=w;  
