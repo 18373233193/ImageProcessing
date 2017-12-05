@@ -2,8 +2,8 @@
 
 % Row and column of the pixel for which we wish to find all similar patches 
 % NOTE: For this section, we pick only one patch
-row = 10;
-col = 10;
+row = 4;
+col = 5;
 
 % Patchsize - make sure your code works for different values
 patchSize = 2;
@@ -16,35 +16,36 @@ searchWindowSize = 5;
 
 % TODO - Load Image
 img = imread('images/alleyNoisy_sigma20.png');
-img = rgb2gray(img);
-I=double(img);  
-
-I1 = padarray(I,[searchWindowSize+patchSize,searchWindowSize+patchSize],'symmetric');
-I2 = padarray(I,[searchWindowSize+patchSize+1,searchWindowSize+patchSize+1],'symmetric');
+I = double(rgb2gray(img));  
+paddedI = padarray(I,[searchWindowSize+patchSize,searchWindowSize+patchSize],'symmetric');
 
 % TODO - Fill out this function
-%image_ii = computeIntegralImage(image);
+%computeii() is just used to compute integral image
+%computeIntegralImage() is used to compute integral image with some parameters
+image_ii = computeii(I); 
 
 % TODO - Display the normalised Integral Image
 % NOTE: This is for display only, not for template matching yet!
-%figure('name', 'Normalised Integral Image');
+figure('name', 'Normalised Integral Image');
+%imshow(image_ii,[]);
 
+% ii saves all the integral image of all the offsets
 ii = cell(2*searchWindowSize+1);
 
-for t1=-searchWindowSize:searchWindowSize  
-    for t2=-searchWindowSize:searchWindowSize
-        x = t1+searchWindowSize+1;
-        y = t2+searchWindowSize+1;
-        ii{x,y} = computeIntegralImage(I2,searchWindowSize,t1,t2);
+for t2 = -searchWindowSize : searchWindowSize
+    for t1 = -searchWindowSize : searchWindowSize  
+        x = t1 + searchWindowSize + 1;
+        y = t2 + searchWindowSize + 1;
+        ii{x,y} = computeIntegralImage(paddedI, searchWindowSize, t1, t2);
     end
 end
 
 % TODO - Template matching for naive SSD (i.e. just loop and sum)
-[offsetsRows_naive, offsetsCols_naive, distances_naive] = templateMatchingNaive(I1, row, col,...
+[offsetsRows_naive, offsetsCols_naive, distances_naive] = templateMatchingNaive(paddedI, row, col,...
     patchSize, searchWindowSize);
 
 % TODO - Template matching using integral images
-[offsetsRows_ii, offsetsCols_ii, distances_ii] = templateMatchingIntegralImage(I2, ii, row, col,...
+[offsetsRows_ii, offsetsCols_ii, distances_ii] = templateMatchingIntegralImage(paddedI, ii, row, col,...
     patchSize, searchWindowSize);
 
 %% Let's print out your results--------------------------------------------

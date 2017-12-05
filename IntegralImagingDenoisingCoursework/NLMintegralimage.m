@@ -1,9 +1,9 @@
-function [result] = Dawn(I,sigma,h,ds,Ds)  
+function [result] = NLMintegralimage(image,sigma,h,ds,Ds)  
 
-[N1,N2]=size(I);  
-Vsym = padarray(I,[Ds+ds+1,Ds+ds+1],'symmetric');  % why plus 1 ??
+[N1,N2] = size(image);
+result = zeros(N1,N2);
 
-result = zeros(N1,N2); 
+Vsym = padarray(image,[Ds+ds,Ds+ds],'symmetric');
 
 ii = cell(2*Ds+1);
 
@@ -15,17 +15,16 @@ for t1=-Ds:Ds
     end
 end
 
-
-for x1=1:N1  
-    for x2=1:N2 
-        
+for x2 = 1:N2
+    for x1 = 1:N1  
+  
         [offsetsRows, offsetsCols, distances] = templateMatchingIntegralImage(Vsym, ii, x1, x2, ds, Ds);
         
         w = computeWeighting(distances, h, sigma, ds);
         
         sweight = sum(sum(w)) - 1;
         
-        average = sum(sum((w').*Vsym(offsetsRows(1):offsetsRows(end),offsetsCols(1):offsetsCols(end)))) - I(x1,x2);
+        average = sum(sum((w').*Vsym(offsetsRows(1):offsetsRows(end),offsetsCols(1):offsetsCols(end)))) - image(x1,x2);
         
         result(x1,x2) = average/sweight;
 

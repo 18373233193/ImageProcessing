@@ -40,14 +40,14 @@ for y1 = i1 - Ds : i1 + Ds
             p = y1 - (i1 - Ds) + 1;
             q = y2 - (j1 - Ds) + 1; 
                 
-            f1=x1+ds+1; %??? Why plus 1 ??
-            g1=x2+ds+1; %??? 
+            f1=x1+ds+1;
+            g1=x2+ds+1;
             
             distances(count) = evaluateIntegralImage(ii{p,q}, f1, g1, ds);
         end
         
-        offsetsRows(count) = y1;
-        offsetsCols(count) = y2;
+        offsetsRows(count) = y1-1;
+        offsetsCols(count) = y2-1;
                 
         count = count+1;
 

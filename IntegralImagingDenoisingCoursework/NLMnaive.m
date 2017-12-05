@@ -1,12 +1,12 @@
-function [result] = Today(image, sigma, ds, Ds, h)    
+function [result] = NLMnaive(image, sigma, h, ds, Ds)    
 
 [N1,N2] = size(image);  
 result = zeros(N1,N2);
 
 Vsym = padarray(image, [Ds+ds,Ds+ds], 'symmetric');
 
-for x1 = 1:N1  
-    for x2 = 1:N2 
+for x2 = 1:N2
+    for x1 = 1:N1   
         
         [offsetsRows, offsetsCols, distances] = templateMatchingNaive(Vsym, x1, x2, ds, Ds);
         
