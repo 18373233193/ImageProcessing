@@ -2,26 +2,30 @@ close all;
 clear all;  
 clc 
 
-img = imread('images/alleyNoisy_sigma22.png');
+img = imread('images/alleyNoisy_sigma20.png');
 img = rgb2gray(img);
-I=double(img);  
+I=double(img); 
+
+h = 0.55;
+sigma = 20;
 
 tic
-Out1 = nonLocalMeans(I,3,10,2,5);
+Out1 = nonLocalMeans(I,h,sigma,2,8);
 toc
 
 tic
-Out2 = NLMnaive(I,3,10,2,5);
+%Out2 = NLMnaive(I,h,sigma,2,5);
 toc
 
 tic
-Out3 = NLMintegralimage(I,3,10,2,5);
+%Out3 = NLMintegralimage(I,h,sigma,2,5);
 toc
 
-disp(Out1(1,1));
-disp(Out2(1,1));
-disp(Out3(1,1));
+%disp(Out1(1,1));
+%disp(Out2(1,1));
+%disp(Out3(1,1));
 
-imshow([Out1,Out2,Out3],[]);
+imshow(Out1,[]);
+
 
 
