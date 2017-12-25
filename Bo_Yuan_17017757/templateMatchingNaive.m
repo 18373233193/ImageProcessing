@@ -1,4 +1,4 @@
-function [offsetsRows, offsetsCols, distances] = templateMatchingNaive(Vsym, row, col,...
+function [offsetsRows, offsetsCols, distances] = templateMatchingNaive(paddedImage, row, col,...
     patchSize, searchWindowSize)
 % This function should for each possible offset in the search window
 % centred at the current row and col, save a value for the offsets and
@@ -13,29 +13,32 @@ function [offsetsRows, offsetsCols, distances] = templateMatchingNaive(Vsym, row
 
 %REPLACE THIS
 
-Ds = searchWindowSize;
-ds = patchSize;
+ss = searchWindowSize;
+ps = patchSize;
 
-offsetsRows = zeros(2*Ds+1);
-offsetsCols = zeros(2*Ds+1);
-distances = zeros(2*Ds+1);
+% three matrix for offsets and distances, the size is equal to the size of search window
+offsetsRows = zeros(2*ss + 1);
+offsetsCols = zeros(2*ss + 1);
+distances = zeros(2*ss + 1);
 
-i = row + Ds + ds;
-j = col + Ds + ds;
+% i and j is the point in the non-padded image
+% cuz the Coordinate System has changed by padding
+i = row + ss + ps;
+j = col + ss + ps;
         
-patch1 = Vsym(i-ds : i+ds, j-ds : j+ds);
+patch1 = paddedImage(i-ps : i+ps, j-ps : j+ps);
 
 count = 1;
 
-for y1 = i - Ds : i + Ds
-    for y2 = j - Ds : j + Ds
+for y1 = i - ss : i + ss
+    for y2 = j - ss : j + ss
                 
         if(y1 == i && y2 == j)
-            distances(count) = 0; 
+            distances(count) = 0; % they are the same point, ignore that
         else        
-            patch2 = Vsym(y1-ds : y1+ds, y2-ds : y2+ds);
+            patch2 = paddedImage(y1-ps : y1+ps, y2-ps : y2+ps);
                 
-            dist2=sum(sum((patch1-patch2).^2));
+            dist2 = sum(sum((patch1-patch2).^2));
         
             distances(count) = dist2;
         end

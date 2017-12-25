@@ -5,7 +5,7 @@ function [patchSum] = evaluateIntegralImage(ii, row, col, patchSize)
 ds = patchSize;
 i1 = row;
 j1= col;
-patchSum = ii(i1+ds,j1+ds)+ii(i1-ds-1,j1-ds-1)-ii(i1+ds,j1-ds-1)-ii(i1-ds-1,j1+ds); 
+patchSum = ii(i1+ds,j1+ds) + ii(i1-ds-1,j1-ds-1) - ii(i1+ds,j1-ds-1) - ii(i1-ds-1,j1+ds); 
 
 %%
 %{

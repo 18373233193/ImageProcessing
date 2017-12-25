@@ -23,9 +23,9 @@ imageReference = imread('images/alleyReference.png');
 
 %TODO - Implement the non-local means function
 tic
-r = NLMintegralimage(image(:,:,1),h,sigma,2,5);
-g = NLMintegralimage(image(:,:,2),h,sigma,2,5);
-b = NLMintegralimage(image(:,:,3),h,sigma,2,5);
+r = nonLocalMeans(image(:,:,1),sigma,h,2,5);
+g = nonLocalMeans(image(:,:,2),sigma,h,2,5);
+b = nonLocalMeans(image(:,:,3),sigma,h,2,5);
 toc
 
 filtered = cat(3,r,g,b);

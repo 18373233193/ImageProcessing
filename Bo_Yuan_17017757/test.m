@@ -2,16 +2,16 @@ close all;
 clear all;  
 clc 
 
-img = imread('images/alleyNoisy_sigma20.png');
+img = imread('images/alleyNoisy_sigma22.png');
 %img = rgb2gray(img);
 
-h = 1;
+h = 0.7;
 sigma = 15;
 
 tic
-r = NLMintegralimage(img(:,:,1),h,sigma,2,5);
-g = NLMintegralimage(img(:,:,2),h,sigma,2,5);
-b = NLMintegralimage(img(:,:,3),h,sigma,2,5);
+r = nonLocalMeans(img(:,:,1),sigma,h,2,5);
+g = nonLocalMeans(img(:,:,2),sigma,h,2,5);
+b = nonLocalMeans(img(:,:,3),sigma,h,2,5);
 toc
 
 colour = cat(3,r,g,b);

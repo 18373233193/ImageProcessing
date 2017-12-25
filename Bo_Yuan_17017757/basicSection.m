@@ -27,10 +27,10 @@ image_ii = computeIntegralImage(I);
 % TODO - Display the normalised Integral Image
 % NOTE: This is for display only, not for template matching yet!
 %figure('name', 'Normalised Integral Image');
-%imshow(image_ii,[]);
+imshow(image_ii,[]);
 
 % ii saves all the integral image of all the offsets
-ii = cell(2*searchWindowSize+1);
+iiCell = cell(2 * searchWindowSize + 1);
 
 for t2 = -searchWindowSize : searchWindowSize
     for t1 = -searchWindowSize : searchWindowSize  
@@ -43,7 +43,7 @@ for t2 = -searchWindowSize : searchWindowSize
         dist = (paddedImage(1 + ss : end - ss, 1 + ss : end - ss) - ...
             paddedImage(1 + ss + t1 : end - ss + t1, 1 + ss + t2 : end - ss + t2)).^2;  
 
-        ii{x,y} = computeIntegralImage(dist);
+        iiCell{x,y} = computeIntegralImage(dist);
         
     end
 end
@@ -53,7 +53,7 @@ end
     patchSize, searchWindowSize);
 
 % TODO - Template matching using integral images
-[offsetsRows_ii, offsetsCols_ii, distances_ii] = templateMatchingIntegralImage(paddedImage, ii, row, col,...
+[offsetsRows_ii, offsetsCols_ii, distances_ii] = templateMatchingIntegralImage(iiCell, row, col,...
     patchSize, searchWindowSize);
 
 %% Let's print out your results--------------------------------------------
