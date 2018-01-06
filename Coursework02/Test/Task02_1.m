@@ -46,7 +46,7 @@ boundry = bwboundaries(backMask);
 
 % compute gradient
 filter = [0 -1 0; -1 4 -1; 0 -1 0];
-laplacian = imfilter(double(dolphinImage), filter, 'replicate');
+laplacian = conv2(double(dolphinImage), filter, 'same');
 
 backImage = double(backImage);
 backImage(logical(backMask(:))) = laplacian(mask(:));
